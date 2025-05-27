@@ -1,0 +1,65 @@
+<script type="text/javascript">
+    RED.nodes.registerType('temporal-workflow-starter', {
+        category: 'Temporal', // Categoria nella palette di Node-RED
+        color: '#a6bbcf',     // Colore del nodo
+        defaults: {
+            // Proprietà configurabili del nodo
+            name: { value: "" }, // Nome del nodo (opzionale)
+            serverAddress: { value: "localhost:7233", required: true },
+            namespace: { value: "default", required: true },
+            taskQueue: { value: "summarization-task-queue", required: true },
+            workflowName: { value: "summarizeConversationWorkflow", required: true }
+        },
+        inputs: 1,  // Il nodo accetta 1 input
+        outputs: 1, // Il nodo produce 1 output
+        icon: "font-awesome/fa-rocket", // Icona del nodo (es. un razzo)
+        label: function() {
+            // Etichetta visualizzata sul nodo nel flow editor
+            return this.name || "Temporal Workflow Starter";
+        },
+        labelStyle: function() {
+            // Stile dell'etichetta
+            return this.name ? "node_label_italic" : "";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="temporal-workflow-starter">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Nome</label>
+        <input type="text" id="node-input-name" placeholder="Nome del nodo">
+    </div>
+    <div class="form-row">
+        <label for="node-input-serverAddress"><i class="fa fa-server"></i> Indirizzo Server Temporal</label>
+        <input type="text" id="node-input-serverAddress" placeholder="es. localhost:7233">
+    </div>
+    <div class="form-row">
+        <label for="node-input-namespace"><i class="fa fa-globe"></i> Namespace Temporal</label>
+        <input type="text" id="node-input-namespace" placeholder="es. default">
+    </div>
+    <div class="form-row">
+        <label for="node-input-taskQueue"><i class="fa fa-tasks"></i> Task Queue</label>
+        <input type="text" id="node-input-taskQueue" placeholder="es. summarization-task-queue">
+    </div>
+    <div class="form-row">
+        <label for="node-input-workflowName"><i class="fa fa-code-fork"></i> Nome Workflow</label>
+        <input type="text" id="node-input-workflowName" placeholder="es. summarizeConversationWorkflow">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="temporal-workflow-starter">
+    <p>Avvia un'istanza di un Workflow Temporal.</p>
+    <h3>Input</h3>
+    <p>Il nodo accetta un <code>msg.payload</code> che deve essere un oggetto contenente gli argomenti per il Workflow Temporal. Per il workflow di riassunto, si aspetta un oggetto come <code>{ "sessionId": "..." }</code>.</p>
+    <h3>Output</h3>
+    <p>In caso di successo, il nodo invia un <code>msg.payload</code> con i dettagli del workflow avviato (<code>workflowId</code>, <code>runId</code>, <code>status</code>). In caso di errore, invia un <code>msg.payload</code> con i dettagli dell'errore.</p>
+    <h3>Dettagli</h3>
+    <p>Questo nodo si connette al tuo Temporal Server e avvia un workflow specificato. La connessione al server viene mantenuta e riutilizzata per migliorare le prestazioni. Assicurati che il tuo Worker Temporal sia in ascolto sulla Task Queue specificata.</p>
+    <h4>Configurazione:</h4>
+    <ul>
+        <li><b>Indirizzo Server Temporal:</b> L'indirizzo gRPC del tuo Temporal Server (es. <code>localhost:7233</code>).</li>
+        <li><b>Namespace Temporal:</b> Il namespace in cui il workflow deve essere avviato (es. <code>default</code>).</li>
+        <li><b>Task Queue:</b> Il nome della Task Queue su cui il tuo Worker Temporal è in ascolto per eseguire questo workflow.</li>
+        <li><b>Nome Workflow:</b> Il nome della funzione del Workflow che deve essere avviata (es. <code>summarizeConversationWorkflow</code>).</li>
+    </ul>
+</script>

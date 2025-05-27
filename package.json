@@ -1,0 +1,21 @@
+{
+  "name": "@topcs/node-red-contrib-temporal-client",
+  "version": "1.0.0",
+  "description": "Node-RED node to start Temporal Workflows",
+  "main": "temporal-workflow-starter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node-red": {
+    "nodes": {
+      "temporal-workflow-starter": "temporal-workflow-starter.js"
+    }
+  },
+  "keywords": [],
+  "author": "Andrea Batazzi @ SatisfctoryGroup",
+  "license": "MIT",
+  "packageManager": "pnpm@10.11.0",
+  "dependencies": {
+    "@temporalio/client": "^1.11.8"
+  }
+}
